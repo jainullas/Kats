@@ -3,34 +3,57 @@ package com.jain.ullas.cats.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jain.ullas.cats.R
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), MainView {
 
-    private val presenter: MainPresenter by inject { parametersOf(this) }
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel.uiData.observe(this, Observer {
+            onViewModelUpdated(it)
+        })
+
         refresh.setOnClickListener { onRefreshButtonClicked() }
-        presenter.loadRandomCat()
+        viewModel.loadRandomCat()
+    }
+
+    private fun onViewModelUpdated(randomCatViewModel: RandomCatViewModel) {
+        if (randomCatViewModel.isLoading) {
+            showProgress()
+            hideRandomCat()
+        } else {
+            hideProgress()
+        }
+
+        randomCatViewModel.randomCat?.url?.let {
+            showRandomCat(it)
+        }
     }
 
     override fun showRandomCat(url: String) {
-        Glide.with(this)
-            .load(url)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(imageView)
+        with(imageView) {
+            visibility = View.VISIBLE
+            Glide.with(this)
+                .load(url)
+                .placeholder(R.drawable.img_loading_placeholder)
+                .into(this)
+        }
+    }
+
+    override fun hideRandomCat() {
+        imageView.visibility = View.INVISIBLE
     }
 
     override fun onRefreshButtonClicked() {
-        presenter.onRefreshButtonClicked()
+        viewModel.loadRandomCat()
     }
 
     override fun showProgress() {

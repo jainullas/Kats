@@ -2,13 +2,15 @@ package com.jain.ullas.cats.di
 
 import com.jain.ullas.cats.BuildConfig
 import com.jain.ullas.cats.common.AsyncFlowableTransformer
-import com.jain.ullas.cats.presentation.MainPresenter
+import com.jain.ullas.cats.presentation.MainViewModel
 import com.jain.ullas.cats.presentation.MainView
 import com.jain.ullas.cats.repository.CatApi
 import com.jain.ullas.cats.repository.CatRepository
 import com.jain.ullas.cats.usecases.GetRandomCatUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.ext.koin.viewModel
+import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -46,8 +48,8 @@ val useCaseModules = module {
     }
 }
 
-val applicationModule = module(override = true) {
-    factory { (view: MainView) -> MainPresenter(view) }
+val applicationModule = module {
+    viewModel { MainViewModel(get(INSTANCE_OF_GET_NEWS_USE_CASE)) }
 }
 
 

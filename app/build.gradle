@@ -16,6 +16,8 @@ android {
         versionCode config["versionCode"]
         versionName config["versionName"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", config["apiKey"])
+        buildConfigField("String", "BASE_URL", config["baseUrl"])
     }
 
     packagingOptions {
@@ -32,15 +34,6 @@ android {
         ignoreWarnings true
         disable 'InvalidPackage'            //Some libraries have issues with this.
         disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file('../buildsystem/debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
     }
 
     buildTypes {
@@ -89,8 +82,11 @@ dependencies {
     implementation applicationDependencies.materialVersion
     implementation applicationDependencies.gson
     implementation applicationDependencies.retrofit
+    implementation applicationDependencies.retrofitRxJava2
     implementation applicationDependencies.okhttpLoggingInterceptor
     implementation applicationDependencies.koin
+    implementation applicationDependencies.koinScope
+    implementation applicationDependencies.koinViewModel
     implementation applicationDependencies.rxJava
     implementation applicationDependencies.rxAndroid
     implementation applicationDependencies.okHttp
@@ -113,9 +109,9 @@ dependencies {
     androidTestImplementation acceptanceTestDependencies.junitExt
     androidTestImplementation acceptanceTestDependencies.uiAutomator
 }
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
+//
+//kotlin {
+//    experimental {
+//        coroutines "enable"
+//    }
+//}

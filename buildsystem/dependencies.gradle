@@ -12,10 +12,12 @@ ext {
     applicationId = 'com.jain.ullas.cats'
     versionName = '1.0'
     versionCode = 1
+    apiKey = '\"53084a64-9b79-4d3f-a229-57a39e1ae4a1\"'
+    baseUrl = '\"https://api.thecatapi.com/v1/\"'
 
     // Sdk and tools
     compileSdkVersion = 28
-    minSdkVersion = 19
+    minSdkVersion = 21
     targetSdkVersion = 28
 
     //Gradle
@@ -24,13 +26,13 @@ ext {
 
     //Kotlin - Love
     kotlinVersion = '1.3.31'
-    coroutinesVersion = "1.1.1"
+    coroutinesVersion = '1.1.1'
 
     //Android libraries
     appCompatVersion = '28.0.0'
     supportLibraryVersion = '1.1.0-alpha05'
     recyclerViewVersion = '1.1.0-alpha05'
-    constraintLayoutVersion = ''
+    constraintLayoutVersion = '2.0.0-beta1'
     lifecycleVersion = '2.2.0-alpha01'
     ktxVersion = '1.0.1'
     cameraxVersion = '1.0.0-alpha01'
@@ -67,7 +69,7 @@ ext {
             kotlinCoroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
             appCompat               : "androidx.appcompat:appcompat:$supportLibraryVersion",
             recyclerView            : "androidx.recyclerview:recyclerview:$recyclerViewVersion",
-            constraintLayout        : "androidx.recyclerview:recyclerview:$constraintLayoutVersion",
+            constraintLayout        : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
             lifecycleExtentions     : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
             lifecycleLiveData       : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
             lifecycleViewmodel      : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
@@ -78,11 +80,14 @@ ext {
             materialVersion         : "com.google.android.material:material:$materialVersion",
             gson                    : "com.google.code.gson:gson:$gsonVersion",
             retrofit                : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxJava2         : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
             okhttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptor",
             koin                    : "org.koin:koin-android:$koin",
+            koinScope               : "org.koin:koin-androidx-scope:$koin",
+            koinViewModel           : "org.koin:koin-androidx-viewmodel:$koin",
             okHttp                  : "com.squareup.okhttp3:okhttp:$okHttp",
             rxJava                  : "io.reactivex.rxjava2:rxjava:$rxJava",
-            rxAndroid               : "io.reactivex.rxjava2:rxjava:$rxAndroid",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroid",
     ]
 
 
