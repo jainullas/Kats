@@ -1,5 +1,6 @@
 package com.jain.ullas.cats.presentation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), MainView {
         })
 
         refresh.setOnClickListener { onRefreshButtonClicked() }
+        upload.setOnClickListener { startActivity(Intent(this, CameraActivity::class.java)) }
         viewModel.loadRandomCat()
     }
 

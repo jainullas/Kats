@@ -75,7 +75,7 @@ ext {
             lifecycleViewmodel      : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
             ktx                     : "androidx.core:core-ktx:$ktxVersion",
             cameraxCore             : "androidx.camera:camera-core:${cameraxVersion}",
-            camerax2Camera          : "androidx.camera:camera-core:${cameraxVersion}",
+            camerax2Camera          : "androidx.camera:camera-camera2:${cameraxVersion}",
             glide                   : "com.github.bumptech.glide:glide:$glideVersion",
             materialVersion         : "com.google.android.material:material:$materialVersion",
             gson                    : "com.google.code.gson:gson:$gsonVersion",
