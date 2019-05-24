@@ -3,14 +3,14 @@ package com.jain.ullas.cats.di
 import com.jain.ullas.cats.BuildConfig
 import com.jain.ullas.cats.common.AsyncFlowableTransformer
 import com.jain.ullas.cats.presentation.MainViewModel
-import com.jain.ullas.cats.presentation.MainView
 import com.jain.ullas.cats.repository.CatApi
 import com.jain.ullas.cats.repository.CatRepository
 import com.jain.ullas.cats.usecases.GetRandomCatUseCase
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -57,11 +57,29 @@ fun createOkHttpClient(): OkHttpClient =
     OkHttpClient.Builder()
         .connectTimeout(60L, TimeUnit.SECONDS)
         .readTimeout(60L, TimeUnit.SECONDS)
-        .addInterceptor(HttpLoggingInterceptor().apply
-        {
-            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        })
+        .addInterceptor(headerInterceptor())
+        .addInterceptor(loggingInterceptor())
         .build()
+
+
+private fun headerInterceptor(): (Interceptor.Chain) -> Response {
+    return { chain ->
+        chain.run {
+            proceed(
+                request()
+                    .newBuilder()
+                    .addHeader("x-api-key", BuildConfig.API_KEY)
+                    .build()
+            )
+        }
+    }
+}
+
+private fun loggingInterceptor() =
+    HttpLoggingInterceptor().apply {
+        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+    }
+
 
 
 inline fun <reified T> createRetrofit(okHttpClient: OkHttpClient): T =
