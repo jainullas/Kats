@@ -6,6 +6,6 @@ abstract class UseCase<Type, in Params>(private val transformer: FlowableRxTrans
 
     abstract fun createFlowable(params: Params?): Flowable<Type>
 
-    fun single(params: Params? = null): Flowable<Type> = createFlowable(params).compose(transformer)
+    fun execute(params: Params? = null): Flowable<Type> = createFlowable(params).compose(transformer)
 
 }

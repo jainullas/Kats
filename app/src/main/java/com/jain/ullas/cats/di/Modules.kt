@@ -2,9 +2,11 @@ package com.jain.ullas.cats.di
 
 import com.jain.ullas.cats.BuildConfig
 import com.jain.ullas.cats.common.AsyncFlowableTransformer
-import com.jain.ullas.cats.presentation.MainViewModel
+import com.jain.ullas.cats.presentation.breeds.BreedsViewModel
+import com.jain.ullas.cats.presentation.RandomCatViewModel
 import com.jain.ullas.cats.repository.CatApi
 import com.jain.ullas.cats.repository.CatRepository
+import com.jain.ullas.cats.usecases.GetBreedsUseCase
 import com.jain.ullas.cats.usecases.GetRandomCatUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,8 +42,15 @@ val repositoryModule = module {
 
 val useCaseModules = module {
 
-    factory(name = INSTANCE_OF_GET_NEWS_USE_CASE) {
+    factory(name = INSTANCE_OF_GET_RANDOM_CAT_CASE) {
         GetRandomCatUseCase(
+            transformer = AsyncFlowableTransformer(),
+            catRepository = get()
+        )
+    }
+
+    factory(name = INSTANCE_OF_GET_BREEDS_CAT_CASE) {
+        GetBreedsUseCase(
             transformer = AsyncFlowableTransformer(),
             catRepository = get()
         )
@@ -49,7 +58,8 @@ val useCaseModules = module {
 }
 
 val applicationModule = module {
-    viewModel { MainViewModel(get(INSTANCE_OF_GET_NEWS_USE_CASE)) }
+    viewModel { RandomCatViewModel(get(INSTANCE_OF_GET_RANDOM_CAT_CASE)) }
+    viewModel { BreedsViewModel(get(INSTANCE_OF_GET_BREEDS_CAT_CASE)) }
 }
 
 
@@ -93,4 +103,5 @@ inline fun <reified T> createRetrofit(okHttpClient: OkHttpClient): T =
 private const val INSTANCE_OF_OK_HTTP = "instance_of_ok_http"
 private const val API = "api"
 private const val REPOSITORY = "repository"
-private const val INSTANCE_OF_GET_NEWS_USE_CASE = "instance_of_get_news_use_case"
+private const val INSTANCE_OF_GET_RANDOM_CAT_CASE = "instance_of_get_random_cat_case"
+private const val INSTANCE_OF_GET_BREEDS_CAT_CASE = "instance_of_get_breeds_cat_case"

@@ -15,6 +15,6 @@ class GetRandomCatUseCase(
     override fun createFlowable(params: Unit?): Flowable<RandomCat> =
         catRepository.getRandomCat().flatMap { t -> Flowable.just(t[0]) }
 
-    fun getRandomCat(): Flowable<RandomCat> = single()
+    fun getRandomCat(): Flowable<RandomCat> = execute()
 }
 
